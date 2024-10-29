@@ -13,6 +13,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.sql.Connection;
+
 @Slf4j
 @WebServlet(name = "frontServlet",urlPatterns = {"*.do"})
 public class FrontServlet extends HttpServlet {
@@ -22,17 +25,17 @@ public class FrontServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         //todo#7-1 controllerFactory를 초기화 합니다.
-
+        this.controllerFactory = (ControllerFactory) getServletContext().getAttribute(ControllerFactory.CONTEXT_CONTROLLER_FACTORY_NAME );
 
         //todo#7-2 viewResolver를 초기화 합니다.
-
+        viewResolver = new ViewResolver();
     }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp){
         try{
             //todo#7-3 Connection pool로 부터 connection 할당 받습니다. connection은 Thread 내에서 공유됩니다.
-
+            DbConnectionThreadLocal.initialize();
 
             BaseController baseController = (BaseController) controllerFactory.getController(req);
             String viewName = baseController.execute(req,resp);
@@ -41,7 +44,7 @@ public class FrontServlet extends HttpServlet {
                 String redirectUrl = viewResolver.getRedirectUrl(viewName);
                 log.debug("redirectUrl:{}",redirectUrl);
                 //todo#7-6 redirect: 로 시작하면  해당 url로 redirect 합니다.
-
+                resp.sendRedirect(redirectUrl);
             }else {
                 String layout = viewResolver.getLayOut(viewName);
                 log.debug("viewName:{}", viewResolver.getPath(viewName));
@@ -53,9 +56,14 @@ public class FrontServlet extends HttpServlet {
             log.error("error:{}",e);
             DbConnectionThreadLocal.setSqlError(true);
             //todo#7-5 예외가 발생하면 해당 예외에 대해서 적절한 처리를 합니다.
-
+            try {
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error occurred");
+            } catch (IOException ioException) {
+                log.error("Failed to send error response", ioException);
+            }
         }finally {
             //todo#7-4 connection을 반납합니다.
+            DbConnectionThreadLocal.reset();
 
         }
     }
