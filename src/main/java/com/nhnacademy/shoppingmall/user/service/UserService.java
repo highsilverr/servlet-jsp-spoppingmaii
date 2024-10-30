@@ -1,6 +1,7 @@
 package com.nhnacademy.shoppingmall.user.service;
 
 import com.nhnacademy.shoppingmall.user.domain.User;
+import com.nhnacademy.shoppingmall.user.dto.UserUpdateDto;
 
 public interface UserService {
 
@@ -8,7 +9,7 @@ public interface UserService {
 
     void saveUser(User user);
 
-    void updateUser(User user);
+    void updateUser(UserUpdateDto userUpdateDto);
 
     void deleteUser(String userId);
 

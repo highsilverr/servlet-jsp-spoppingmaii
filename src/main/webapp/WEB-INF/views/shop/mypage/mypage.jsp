@@ -28,13 +28,15 @@
     <h2>마이 페이지</h2>
 
     <div class="profile-info">
+        <p><strong>id:</strong> <%= user.getUserId() %></p>
         <p><strong>이름:</strong> <%= user.getUserName() %></p>
+        <p><strong>생일:</strong> <%= user.getUserBirth() %></p>
         <p><strong>포인트: </strong> <%= user.getUserPoint() %></p>
     </div>
 
     <div class="profile-actions">
-        <button onclick="location.href='editProfile.jsp'" class="btn btn-primary">프로필 수정</button>
-        <button onclick="location.href='logout.jsp'" class="btn btn-secondary">로그아웃</button>
+        <button onclick="location.href='editprofile.do'" class="btn btn-primary">프로필 수정</button>
+        <button onclick="location.href='logout.do'" class="btn btn-secondary">로그아웃</button>
     </div>
 </div>
 

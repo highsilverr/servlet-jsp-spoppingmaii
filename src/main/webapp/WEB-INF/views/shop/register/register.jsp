@@ -47,10 +47,6 @@
       <input type="text" class="form-control" id="name" name="name" required>
     </div>
     <div class="form-group">
-      <label for="phone">전화번호:</label>
-      <input type="text" class="form-control" id="phone" name="phone" required>
-    </div>
-    <div class="form-group">
       <label for="birth">생일</label>
       <input type="text" class="form-control" id="birth" name="birth" required>
     </div>

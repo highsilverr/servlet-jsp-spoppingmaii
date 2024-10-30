@@ -3,6 +3,7 @@ package com.nhnacademy.shoppingmall.user.repository.impl;
 import com.nhnacademy.shoppingmall.common.mvc.transaction.DbConnectionThreadLocal;
 import com.nhnacademy.shoppingmall.common.util.DbUtils;
 import com.nhnacademy.shoppingmall.user.domain.User;
+import com.nhnacademy.shoppingmall.user.dto.UserUpdateDto;
 import com.nhnacademy.shoppingmall.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -131,19 +132,17 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public int update(User user) {
+    public int update(UserUpdateDto userUpdateDto) {
         // 회원 수정
         Connection connection = DbConnectionThreadLocal.getConnection();
 
-        String sql = "UPDATE users SET user_name = ?, user_auth = ?, user_point = ?, user_birth = ?, user_password = ? WHERE user_id = ?";
+        String sql = "UPDATE users SET user_name = ?, user_birth = ?, user_password = ? WHERE user_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, user.getUserName());
-            statement.setString(2, user.getUserAuth().name());
-            statement.setInt(3, user.getUserPoint());
-            statement.setString(4, user.getUserBirth());
-            statement.setString(5, user.getUserPassword());
-            statement.setString(6, user.getUserId());
+            statement.setString(1, userUpdateDto.getUserName());
+            statement.setString(2, userUpdateDto.getUserBirth());
+            statement.setString(3, userUpdateDto.getUserPassword());
+            statement.setString(4, userUpdateDto.getUserId());
 
             // 쿼리 실행하고, 수정된 행의 수를 반환
             return statement.executeUpdate();

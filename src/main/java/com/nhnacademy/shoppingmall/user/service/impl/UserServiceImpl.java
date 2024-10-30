@@ -1,5 +1,6 @@
 package com.nhnacademy.shoppingmall.user.service.impl;
 
+import com.nhnacademy.shoppingmall.user.dto.UserUpdateDto;
 import com.nhnacademy.shoppingmall.user.exception.UserAlreadyExistsException;
 import com.nhnacademy.shoppingmall.user.exception.UserNotFoundException;
 import com.nhnacademy.shoppingmall.user.service.UserService;
@@ -55,30 +56,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(UserUpdateDto userUpdateDto) {
         //todo#4-3 회원수정
 
-        // 입력값 유효성 검사
-        if (user == null) {
-            throw new IllegalArgumentException("User cannot be null");
-        }
-        if (user.getUserId() == null || user.getUserId().isEmpty()) {
-            throw new IllegalArgumentException("User ID cannot be null or empty");
-        }
-        if (user.getUserName() == null || user.getUserName().isEmpty()) {
-            throw new IllegalArgumentException("User name cannot be null or empty");
-        }
-        if (user.getUserPassword() == null || user.getUserPassword().isEmpty()) {
-            throw new IllegalArgumentException("User password cannot be null or empty");
-        }
-
         // 사용자 ID로 존재 여부 확인
-        int userCount = userRepository.countByUserId(user.getUserId());
+        int userCount = userRepository.countByUserId(userUpdateDto.getUserId());
         if (userCount == 0) {
-            throw new IllegalArgumentException("User not found with id: " + user.getUserId());
+            throw new IllegalArgumentException("User not found with id: " + userUpdateDto.getUserId());
         }
 
-        userRepository.update(user);
+        userRepository.update(userUpdateDto);
 
     }
 
