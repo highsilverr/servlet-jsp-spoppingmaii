@@ -78,7 +78,8 @@ public class DbConnectionThreadLocal {
 
             // todo#2-7 현재 사용하고 있는 connection을 재사용할 수 없도록 connectionThreadLocal을 초기화 합니다.
             connectionThreadLocal.remove();
-            sqlErrorThreadLocal.remove();
+            //sqlErrorThreadLocal.remove();
+            sqlErrorThreadLocal.set(false);
         }
     }
 

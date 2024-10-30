@@ -6,6 +6,7 @@ import com.nhnacademy.shoppingmall.user.repository.impl.UserRepositoryImpl;
 import com.nhnacademy.shoppingmall.user.service.UserService;
 import com.nhnacademy.shoppingmall.user.service.impl.UserServiceImpl;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.annotation.WebListener;
 import lombok.extern.slf4j.Slf4j;
 
 import jakarta.servlet.ServletContextEvent;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Slf4j
+@WebListener
 public class ApplicationListener implements ServletContextListener {
     private final UserService userService = new UserServiceImpl(new UserRepositoryImpl());
     @Override
@@ -38,7 +40,6 @@ public class ApplicationListener implements ServletContextListener {
         if(Objects.isNull(userCheck)){
             userService.saveUser(user);
         }
-
 
         DbConnectionThreadLocal.reset();
     }

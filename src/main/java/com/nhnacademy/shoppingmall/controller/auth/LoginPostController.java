@@ -20,8 +20,12 @@ public class LoginPostController implements BaseController {
         //todo#13-2 로그인 구현, session은 60분동안 유지됩니다.
 
         // 사용자 입력 정보
-        String userId = req.getParameter("userId");
-        String password = req.getParameter("password");
+        String userId = req.getParameter("user_id");
+        String password = req.getParameter("user_password");
+
+//        if(userId == null || password == null){
+//            throw new
+//        }
 
         // 사용자 인증 확인
         if (userService.doLogin(userId, password) != null) {
