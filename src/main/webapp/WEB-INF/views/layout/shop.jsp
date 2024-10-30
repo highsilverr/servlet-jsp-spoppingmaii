@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ taglib prefix="x" uri="jakarta.tags.xml" %>
 <%@ taglib prefix="sql" uri="jakarta.tags.sql" %>
+<%@ page isErrorPage="true" %>
 
 <!doctype html>
 <html lang="ko">
@@ -39,8 +40,18 @@
                     </form>
 
                     <div class="text-end">
-                        <a class="btn btn-outline-light me-2" href="/login.do" >로그인</a>
-                        <a class="btn btn-warning" href="signup.do" >회원가입</a>
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.user}">
+                                <!-- 로그인 상태: 로그아웃 버튼 표시 -->
+                                <a class="btn btn-outline-light me-2" href="/logout.do">로그아웃</a>
+                                <span class="text-white">환영합니다, ${sessionScope.user.userName} 님!</span>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- 로그아웃 상태: 로그인 및 회원가입 버튼 표시 -->
+                                <a class="btn btn-outline-light me-2" href="/login.do">로그인</a>
+                                <a class="btn btn-warning" href="signup.do">회원가입</a>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>
