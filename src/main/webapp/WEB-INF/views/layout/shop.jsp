@@ -1,4 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" trimDirectiveWhitespaces="true" %>
+<%@ page import="com.nhnacademy.shoppingmall.user.domain.User" %>
+<%@ page import="java.security.Provider" %>
+<%@ page import="com.mysql.cj.Session" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="true" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -40,18 +43,20 @@
                     </form>
 
                     <div class="text-end">
-                        <c:choose>
-                            <c:when test="${sessionScope.user != null}">
-                                <!-- 로그인 상태: 로그아웃 버튼 표시 -->
-                                <a class="btn btn-outline-light me-2" href="/logout.do">로그아웃</a>
-                                <span class="text-white">환영합니다, ${sessionScope.user.userName} 님!</span>
-                            </c:when>
-                            <c:otherwise>
-                                <!-- 로그아웃 상태: 로그인 및 회원가입 버튼 표시 -->
-                                <a class="btn btn-outline-light me-2" href="/login.do">로그인</a>
-                                <a class="btn btn-warning" href="signup.do">회원가입</a>
-                            </c:otherwise>
-                        </c:choose>
+                        <%
+                            Object user = session.getAttribute("user");
+                        %>
+
+                        <% if (user != null) { %>
+                        <!-- 로그인 상태: 로그아웃 버튼 표시 -->
+                        <a class="btn btn-outline-light me-2" href="logout.do">로그아웃</a>
+                        <span class="text-white">환영합니다, <%= ((User) user).getUserName() %> 님!</span>
+                        <% } else { %>
+                        <!-- 로그아웃 상태: 로그인 및 회원가입 버튼 표시 -->
+                        <a class="btn btn-outline-light me-2" href="login.do">로그인</a>
+                        <a class="btn btn-warning" href="signup.do">회원가입</a>
+                        <% } %>
+
                     </div>
                 </div>
             </div>
