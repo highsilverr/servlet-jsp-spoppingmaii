@@ -27,6 +27,11 @@ public class EditProfilePostController implements BaseController {
         String birth = req.getParameter("userBirth");
         String name = req.getParameter("userName");
 
+        if (password == null || !password.equals(confirmPassword)) {
+            // 비밀번호가 일치하지 않으면 에러 메시지를 설정하고, 적절한 페이지로 이동
+            req.setAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
+            return "shop/mypage/updateUserForm"; // 에러 발생 시 돌아갈 페이지
+        }
 
         UserUpdateDto userUpdateDto = new UserUpdateDto(id,name,password,birth);
         userService.updateUser(userUpdateDto);
