@@ -1,5 +1,6 @@
 package com.nhnacademy.shoppingmall.common.filter;
 
+import com.nhnacademy.shoppingmall.user.domain.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +20,9 @@ public class AdminCheckFilter extends HttpFilter {
         log.debug("filter-admin-check:{}", req.getRequestURI());
 
         HttpSession session = req.getSession(false);
-        if (session == null || !"ROLE_ADMIN".equals(session.getAttribute("role"))) {
+        User user = (User) session.getAttribute("user");
+
+        if (session == null || "ROLE_USER".equals(user.getUserAuth().toString())) {
             // 사용자가 ROLE_USER이거나 세션이 없는 경우
             log.info("Unauthorized access attempt to admin area: {}", req.getRequestURI());
             res.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");

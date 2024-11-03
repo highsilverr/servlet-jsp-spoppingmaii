@@ -8,6 +8,7 @@ import com.nhnacademy.shoppingmall.user.domain.User;
 import com.nhnacademy.shoppingmall.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -118,5 +119,9 @@ public class UserServiceImpl implements UserService {
         // 로그인 성공 시 사용자 정보 반환
         return user;
     }
+
+//    public List<User> getAllUsers() {
+//        return userRepository.findAll(); // 데이터베이스에서 모든 사용자 조회
+//    }
 
 }

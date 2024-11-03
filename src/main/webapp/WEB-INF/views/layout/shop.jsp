@@ -35,8 +35,29 @@
 
                     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                         <li><a href="/index.do" class="nav-link px-2 text-secondary">Home</a></li>
-                        <li><a href="mypage.do" class="nav-link px-2 text-white">마이페이지</a></li>
+                        <li>
+                            <%
+                                User user = (User) session.getAttribute("user");
+                                if (user != null && user.getUserAuth() != null) {
+                                    // 사용자 역할이 관리자라면
+                                    if (user.getUserAuth() == User.Auth.ROLE_ADMIN) {
+                            %>
+                            <a href="admin/users.do" class="nav-link px-2 text-white">관리자 페이지</a>
+                            <%
+                            } else {
+                            %>
+                            <a href="mypage.do" class="nav-link px-2 text-white">마이페이지</a>
+                            <%
+                                }
+                            } else {
+                            %>
+                            <a href="login.do" class="nav-link px-2 text-white">로그인</a>
+                            <%
+                                }
+                            %>
+                        </li>
                     </ul>
+
 
                     <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                         <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
@@ -44,10 +65,10 @@
 
                     <div class="text-end">
                         <%
-                            Object user = session.getAttribute("user");
+                            Object userO = session.getAttribute("user");
                         %>
 
-                        <% if (user != null) { %>
+                        <% if (userO != null) { %>
                         <!-- 로그인 상태: 로그아웃 버튼 표시 -->
                         <a class="btn btn-outline-light me-2" href="logout.do">로그아웃</a>
                         <span class="text-white">환영합니다, <%= ((User) user).getUserName() %> 님!</span>

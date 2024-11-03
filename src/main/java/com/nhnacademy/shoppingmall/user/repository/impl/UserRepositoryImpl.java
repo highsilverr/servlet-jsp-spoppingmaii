@@ -9,8 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import static com.mysql.cj.conf.PropertyKey.PASSWORD;
+import static jakarta.servlet.SessionTrackingMode.URL;
 
 @Slf4j
 public class UserRepositoryImpl implements UserRepository {
@@ -188,5 +193,27 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return 0;
     }
+//    public List<User> findAll() {
+//        List<User> users = new ArrayList<>();
+//
+//        // JDBC 연결을 위한 객체
+//        try (
+//             PreparedStatement statement = connection.prepareStatement("SELECT id, name, email, role FROM users");
+//             ResultSet resultSet = statement.executeQuery()) {
+//
+//            // 결과를 반복하면서 사용자 목록에 추가
+//            while (resultSet.next()) {
+//                String id = resultSet.getString("id");
+//                String name = resultSet.getString("name");
+//                String email = resultSet.getString("email");
+//                String role = resultSet.getString("role");
+//                users.add(new User(id, name, email, role));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace(); // 오류 처리
+//        }
+//
+//        return users; // 사용자 목록 반환
+//    }
 
 }
