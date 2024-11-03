@@ -120,8 +120,9 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-//    public List<User> getAllUsers() {
-//        return userRepository.findAll(); // 데이터베이스에서 모든 사용자 조회
-//    }
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll(); // 데이터베이스에서 모든 사용자 조회
+    }
 
 }

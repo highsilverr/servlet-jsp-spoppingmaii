@@ -4,6 +4,7 @@ import com.nhnacademy.shoppingmall.user.domain.User;
 import com.nhnacademy.shoppingmall.user.dto.UserUpdateDto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -14,4 +15,5 @@ public interface UserRepository {
     int update(UserUpdateDto userUpdateDto);
     int updateLatestLoginAtByUserId(String userId, LocalDateTime latestLoginAt);
     int countByUserId(String userId);
+    List<User> findAll();
 }

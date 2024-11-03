@@ -3,6 +3,8 @@ package com.nhnacademy.shoppingmall.user.service;
 import com.nhnacademy.shoppingmall.user.domain.User;
 import com.nhnacademy.shoppingmall.user.dto.UserUpdateDto;
 
+import java.util.List;
+
 public interface UserService {
 
     User getUser(String userId);
@@ -15,4 +17,5 @@ public interface UserService {
 
     User doLogin(String userId, String userPassword);
 
+    List<User> getAllUsers();
 }

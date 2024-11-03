@@ -193,27 +193,40 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return 0;
     }
-//    public List<User> findAll() {
-//        List<User> users = new ArrayList<>();
-//
-//        // JDBC 연결을 위한 객체
-//        try (
-//             PreparedStatement statement = connection.prepareStatement("SELECT id, name, email, role FROM users");
-//             ResultSet resultSet = statement.executeQuery()) {
-//
-//            // 결과를 반복하면서 사용자 목록에 추가
-//            while (resultSet.next()) {
-//                String id = resultSet.getString("id");
-//                String name = resultSet.getString("name");
-//                String email = resultSet.getString("email");
-//                String role = resultSet.getString("role");
-//                users.add(new User(id, name, email, role));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace(); // 오류 처리
-//        }
-//
-//        return users; // 사용자 목록 반환
-//    }
+
+    @Override
+    public List<User> findAll() {
+        List<User> users = new ArrayList<>();
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        // JDBC 연결을 위한 객체
+        try (
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users");
+             ResultSet resultSet = statement.executeQuery()) {
+
+            //user_id, user_name, user_password, user_birth, user_auth, user_point, created_at, latest_login_at
+            // 결과를 반복하면서 사용자 목록에 추가
+            while (resultSet.next()) {
+                String id = resultSet.getString("user_id");
+                String name = resultSet.getString("user_name");
+                String password = resultSet.getString("user_password");
+                String birth = resultSet.getString("user_birth");
+                String auth = resultSet.getString("user_auth");
+                int point = resultSet.getInt("user_point");
+                Timestamp createdAt = resultSet.getTimestamp("created_at");
+                Timestamp latestLoginAt = resultSet.getTimestamp("latest_login_at");
+
+                // User 객체 생성 및 필드 설정
+                User user = new User(id, name, password, birth, User.Auth.valueOf(auth), point,
+                        createdAt.toLocalDateTime(),
+                        latestLoginAt != null ? latestLoginAt.toLocalDateTime() : null);
+
+                users.add(user); // 사용자 객체를 목록에 추가
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // 오류 처리
+        }
+
+        return users; // 사용자 목록 반환
+    }
 
 }
